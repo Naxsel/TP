@@ -1,0 +1,30 @@
+.SUFFIXES: .cc .o
+
+PROG=main
+SRCS=main.cc Partida.cc
+OBJS=$(SRCS:.cc=.o)
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	g++ -std=c++11 -o $(PROG) $^
+
+%.o: %.cc
+	g++ -std=c++11 -c $<
+
+.PHONY: edit go
+
+edit:
+	@geany -s -i $(SRCS) &
+
+go:
+	@$(PROG)
+
+clean:
+	@rm -f $(PROG) *.o core tags
+
+main.o: Partida.h
+partida.o: Partida.h Partida.cc
+baraja.o: Baraja.h Baraja.cc
+carta.o: Carta.h Carta.cc
+palo.o: Palo.h
