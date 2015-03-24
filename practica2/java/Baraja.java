@@ -2,7 +2,7 @@
  * Autores: Ana Roig Jimenez, Alejandro Solanas Bonilla
  * NIAs:    686329, 647647
  * Fichero: Baraja.java
- * Fecha: 13/03/2015
+ * Fecha: 19/03/2015
  */
 
 import java.util.ArrayList;
