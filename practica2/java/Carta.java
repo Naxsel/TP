@@ -2,7 +2,7 @@
  * Autores: Ana Roig Jimenez, Alejandro Solanas Bonilla
  * NIAs:    686329, 647647
  * Fichero: Carta.java
- * Fecha: 26/02/2015
+ * Fecha: 19/03/2015
  */
 
 /**
