@@ -2,7 +2,7 @@
  * Autores: Ana Roig Jimenez, Alejandro Solanas Bonilla
  * NIAs:    686329, 647647
  * Fichero: Main.java
- * Fecha: 26/02/2015
+ * Fecha: 19/03/2015
  */
 
 /**
@@ -13,6 +13,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		Casino c = new Casino();
-		c.juega();
+		if(c.juega()) {
+			System.out.println("Casino ha ganado");
+		}
+		else {
+			System.out.println("Casino no ha ganado");
+		}
 	}
 }

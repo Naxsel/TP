@@ -12,7 +12,8 @@
 using namespace std;
 
 /**
- *Clase Baraja, formada por su metodo constructor, y por los metodos 'cogerCarta', 'mezcla', y 'quedanCartas'.
+ * Clase Baraja, formada por su metodo constructor, y por los metodos
+ * 'cogerCarta', 'mezcla', 'quedanCartas', 'cartas'.
  */
 
 /*

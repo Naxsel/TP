@@ -1,16 +1,17 @@
 /*
  * Autores: Ana Roig Jimenez, Alejandro Solanas Bonilla
  * NIAs:    686329, 647647
- * Fichero: Partida.java
- * Fecha: 26/02/2015
+ * Fichero: SieteYMedio.java
+ * Fecha: 19/03/2015
  */
 
 public class SieteYMedio extends Partida {
 
-//Cada jugador recibe 3 cartas. Se suman los puntos de esas cartas. Gana el jugador que mas se acerca a 7'5 sin pasarse.
-//Termina cuando no quedan cartas suficientes como para repartir a las 2 personas(no quean 6 cartas vaya).
 	public SieteYMedio() {}
 
+	/*
+	 * Adapta el valor de las cartas para las reglas del juego.
+	 */
 	public double valor(int numCarta) {
 		double valor;
 		switch (numCarta) {
@@ -30,8 +31,21 @@ public class SieteYMedio extends Partida {
 		return valor;
 	}
 
+	/*
+	 * Metodo auxiliar para calcular los puntos que suman las tres cartas.
+	 */
+	public double suma(Carta[] c, int jugador) {
+		double total = 0.0;
+		for(int i = 0; i < 3; i++) {
+			total = total + valor(c[i].getNumero());
+		}
+		return total;
+	}
 
-
+	/*
+	 * Juega con una baraja de 40 cartas hasta que se terminan.
+   * Devuelve un entero para identificar al ganador
+   */
 	public int juega () {
 		Carta[] trio1 = new Carta[3];
 		Carta[] trio2 = new Carta[3];
@@ -42,7 +56,6 @@ public class SieteYMedio extends Partida {
 			}
 			resul(suma(trio1, 1),suma(trio2, 2));
 		}
-
 		if(puntos1 > puntos2) {
 			return 1;
 		}
@@ -52,29 +65,18 @@ public class SieteYMedio extends Partida {
 		else {
 			return 0;
 		}
-
 	}
 
-
-	public double suma(Carta[] c, int jugador) {
-		double total = 0.0;
-		for(int i = 0; i < 3; i++) {
-			total = total + valor(c[i].getNumero());
-		}
-		return total;
-	}
-
-
+	/*
+	 * Suma un punto al jugador si la suma de sus tres cartas es mayor que la del otro jugador.
+	 */
 	public void resul (double j1, double j2) {
 		if(j1 > 7.5 && j2 > 7.5) {
-			//System.out.println("Empate");
 		}
 		else if ((j1 > 7.5) || (j2 > j1)) {
-			//System.out.println("Gana el jugador 2");
 			puntos2++;
 		}
-		else { //if((j2 > 7.5) || (j1 > j2)) {
-			//System.out.println("Gana el jugador 1");
+		else {
 			puntos1++;
 		}
 	}

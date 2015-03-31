@@ -10,9 +10,10 @@ import java.util.Random;
 
 /**
  * Clase Baraja, formada por su metodo constructor, y por los metodos
- * 'cogerCarta', 'mezcla', y 'quedanCartas'.
+ * 'cogerCarta', 'mezcla', 'quedanCartas' y 'cartas'.
  */
 public class Baraja {
+ 	/* Atributos privados de la clase */
 	Random r = new Random();
 	private final int cartas = 40;
 	private ArrayList<Carta> baraja = new ArrayList<Carta>();
@@ -33,8 +34,7 @@ public class Baraja {
 	}
 
 	/*
-	 *Pre: ---
-	 *Post: Realiza una mezcla de cartas de la baraja utilizada
+	 * Realiza una mezcla de cartas de la baraja utilizada
 	 */
 	public void mezcla() {
 		Carta aux;
@@ -48,22 +48,23 @@ public class Baraja {
 	}
 
 	/*
-	 *Pre: ---
-	 *Post: Devuelve un objeto tipo Carta que corresponde a la ultima carta situada en la baraja
+	 * Devuelve un objeto tipo Carta que corresponde a la ultima carta situada en la baraja
 	 */
 	public Carta cogerCarta() {
-		Carta c = baraja.remove(r.nextInt(baraja.size()));
+		Carta c = baraja.remove(baraja.size()-1);
 		return c;
 	}
 
 	/*
-	 *Pre: ---
-	 *Post: Devuelve true si la baraja no esta vacia, false en caso contrario
+	 * Devuelve true si la baraja no esta vacia, false en caso contrario
 	 */
 	public boolean quedanCartas() {
 		return baraja.size() > 0;
 	}
 
+	/*
+	 * Devuelve el numero de cartas restantes de la baraja.
+	 */
 	public int cartas() {
 		return baraja.size();
 	}

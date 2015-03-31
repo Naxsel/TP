@@ -11,6 +11,8 @@
  */
 public class Carta {
 
+	/* Atributos privados de la clase */
+
 	private Palo palo;
 	private int numero;
 
@@ -23,8 +25,7 @@ public class Carta {
 	}
 
 	/*
-	 *Pre: ---
-	 *Post: Devuelve el valor del atributo palo
+	 * Devuelve el valor del atributo palo
 	 */
 	public Palo getPalo() {
 		return palo;
@@ -32,8 +33,7 @@ public class Carta {
 
 
 	/*
-	 *Pre: ---
-	 *Post: Devuelve el valor del atributo numero
+	 * Devuelve el valor del atributo numero
 	 */
 	public int getNumero() {
 		return numero;
@@ -41,8 +41,7 @@ public class Carta {
 
 
 	/*
-	 *Pre: otra es un objeto de tipo Carta
-	 *Post: Devuelve true si el valor del numero de otra es menor que el numero de carta que realiza la llamada, false en caso contrario
+	 * Devuelve true si el valor del numero de otra es menor que el numero de carta que realiza la llamada, false en caso contrario
 	 */
 	boolean gana(Carta otra) {
 		if (numero > otra.numero) {
@@ -53,8 +52,7 @@ public class Carta {
 	}
 
 	/*
-	 *Pre: ---
-	 *Post: Devuelve una cadena que contiene el numero y el palo de la carta correspondiente, quedando la carta, asi, definida completamente
+	 * Devuelve una cadena que contiene el numero y el palo de la carta correspondiente, quedando la carta, asi, definida completamente
 	 */
 	public Object print() {
 		return numero + " de " + palo.name();
