@@ -7,6 +7,9 @@
 
 public class Enlace {
 
+  private String nombre;
+  private double size;
 
-  
+  public Enlace(String nombre)
+    this.nombre=nombre;
 }

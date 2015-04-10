@@ -11,7 +11,10 @@ class Main {
 	try {
 		raiz = new Directorio("");
 		ruta = new Ruta(raiz);
-	} catch (ExcepcionArbolFicheros e) { return; }
+	}
+  catch (ExcepcionArbolFicheros e) {
+    return;
+  }
 
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	boolean end = false;
@@ -23,31 +26,43 @@ class Main {
 			String[] argv = br.readLine().split(" ");
 			if (argv[0].equals("pwd")) {
 				System.out.println(ruta.pwd());
-			} else if (argv[0].equals("ls")) {
+			}
+      else if (argv[0].equals("ls")) {
 				ruta.ls();
-			} else if (argv[0].equals("cd")) {
+			}
+      else if (argv[0].equals("cd")) {
 				ruta.cd(argv[1]);
-			} else if (argv[0].equals("stat")) {
+			}
+      else if (argv[0].equals("stat")) {
 				if (argv.length > 1) ruta.stat(argv[1]);
 				else ruta.stat(".");
-			} else if (argv[0].equals("vim")) {
+			}
+      else if (argv[0].equals("vim")) {
 				ruta.vim(argv[1], Integer.parseInt(argv[2]));
-			} else if (argv[0].equals("mkdir")) {
+			}
+      else if (argv[0].equals("mkdir")) {
 				ruta.mkdir(argv[1]);
-			} else if (argv[0].equals("ln")) {
+			}
+      else if (argv[0].equals("ln")) {
 				ruta.ln(argv[1],argv[2]);
-			} else if (argv[0].equals("rm")) {
+			}
+      else if (argv[0].equals("rm")) {
 				ruta.rm(argv[1]);
-			} else if (argv[0].equals("exit")) {
+			}
+      else if (argv[0].equals("exit")) {
 				end = true;
-			} else {
+			}
+      else {
 				System.out.println("Comando desconocido");
 			}
-		} catch(ExcepcionArbolFicheros e) {
+		}
+    catch(ExcepcionArbolFicheros e) {
 			System.out.println(e);
-		} catch(IOException e) {
+		}
+    catch(IOException e) {
 			System.out.println("Error de entrada-salida");
-		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+		}
+    catch (java.lang.ArrayIndexOutOfBoundsException e) {
 			System.out.println("Error sintactico: parametros insuficientes");
 		}
 	}

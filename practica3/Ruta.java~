@@ -5,21 +5,10 @@
  * Fecha: 25/03/2015
  */
 
-//3 ArrayList para directorio, o uno generico
-//Metodo list para ls?
-//Hay que devolver en orden alfabetico con ls?
-
-
 /**
  *
  */
 public class Ruta {
-
-	ArrayList ruta;
-
-	public Ruta(Directorio raiz){
-		ruta.add(raiz)
-	}
 
 	/**
 	 * Devuelve la ruta completa, con todos los nombres de los directorios desde
@@ -27,14 +16,7 @@ public class Ruta {
 	 * separador /.
 	 */
 	String pwd() {
-		String s = "";
-		for (int n=0; n<ruta.size; n++){
-			if (s.equals("/")){
-				s= s+ruta.get(n).getName();
-			}else{
-				s= s +"/"+ruta.get(n).getName()
-			}
-		}
+		
 	}
 
 	/**
@@ -43,8 +25,6 @@ public class Ruta {
 	 * diferente, sin ningun dato mas.
 	 */
 	void ls() {
-		Directorio actual = ruta.get(ruta.size()-1);
-		actual.
 
 	}
 
@@ -57,14 +37,7 @@ public class Ruta {
 	 * (varios directorios separados por “/”).
 	 */
 	void cd(String path) {
-		if (!path.equals(".")){
-			if (path.equals("..")){
-				ruta.remove(ruta.size()-1);
-				pwd();
-			}else{
 
-			}
-		}
 	}
 
 	/**
@@ -85,7 +58,7 @@ public class Ruta {
 	 * enlace a un archivo, también cambia su tamaño.
 	 */
 	void vim(String file, int size) {
-		Directorio actual = ruta.get(ruta.size()-1);
+
 	}
 
 	/**
@@ -93,7 +66,7 @@ public class Ruta {
 	 * parámetro una ruta completa.
 	 */
 	void mkdir(String dir) {
-		Directorio D = new Directorio(dir);
+
 	}
 
 	/**
@@ -103,7 +76,7 @@ public class Ruta {
 	 * simbólicos entre elementos dentro de diferentes posiciones del árbol de
 	 * directorios.
 	 */
-	void ln(String orig, String dest) {
+	void ln(Sttring orig, String dest) {
 
 	}
 

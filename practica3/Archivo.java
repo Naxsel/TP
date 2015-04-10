@@ -7,9 +7,28 @@
 
 public class Archivo {
 
+  private String nombre;
+  private double size;
 
+  public Archivo(String nombre, int size) {
+    this.nombre= nombre;
+    this.size=size;
+  }
 
+  public String getNombre() {
+    return nombre;
+  }
 
+  public double getSize() {
+    return size;
+  }
 
-  
+  public void setNombre(String nom) {
+    this.nombre = nom;
+  }
+
+  public void setSize(double tam) {
+    this.size = tam;
+  }
+
 }
