@@ -5,10 +5,7 @@
  * Fecha: 25/03/2015
  */
 
-public class Archivo {
-
-  private String nombre;
-  private double size;
+public class Archivo extends Elemento {
 
   public Archivo(String nombre, int size) {
     this.nombre= nombre;
@@ -29,6 +26,20 @@ public class Archivo {
 
   public void setSize(double tam) {
     this.size = tam;
+  }
+  
+  public void link(Enlace enlace){
+  
+  }
+  
+  public boolean esArchivo () {
+	  return true;
+  }
+    public boolean esDirectorio () {
+	  return false;
+  }
+    public boolean esEnlace() {
+	  return false;
   }
 
 }

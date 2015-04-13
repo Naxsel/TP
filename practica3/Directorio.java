@@ -5,13 +5,10 @@
  * Fecha: 25/03/2015
  */
 
-public class Directorio {
+public class Directorio extends Elemento {
 
-  private String nombre;
-  private double size;
-  ArrayList Archivo archivos;
-  ArrayList Directorio subdirectorios;
-  ArrayList Enlace enlace;
+  ArrayList Elemento lista;
+  //ArrayList Enlace enl;
 
   public Directorio(String nombre) {
     this.nombre = nombre;
@@ -26,29 +23,56 @@ public class Directorio {
   }
 
   public double getSize(){
-    double sumna=0;
-    for (int i=0;i<archivos.size()-1;i++){
-      suma+=archivos(i).getSize();
-    }
-    for (int i=0;i<subdirectorios.size()-1;i++){
-      suma+=subdirectorios(i).getSize();
-    }
-    for (int i=0;i<enlace.size()-1;i++){
-      suma+=enlace(i).getSize();
+    double suma=0;
+    for (int i=0;i<lista.size()-1;i++){
+      suma+=lista.get(i).getSize();
     }
     return suma;
   }
-  public void list(){
-    //ArrayList Strings
-    for (int i=0;i<archivos.size()-1;i++){
-      System.out.println(archivos(i).getName());
+  public void Add(Elemento elmt){
+    lista.add(elmt);
+    //lista.sort();
+  }
+
+  public void print() {
+  	for(int i=0, i<lista.size()-1;i++){
+  		System.out.println(lista.get(i).getName());
+  	}
+  }
+
+  public void link(Enlace enlace){
+
+  }
+
+  public Elemento subD (String nombre){
+    Elemento e;
+    for (int i=0, i<lista.size()-1;i++){
+      e = lista.get(i);
+      if (e.getName().equals(nombre) && e.esDirectorio()){
+        return e;
+      }
     }
-    for (int i=0;i<subdirectorios.size()-1;i++){
-      System.out.println(subdirectorios(i).getName());
+	  return null;
+  }
+
+  public Elemento subE (String nombre){
+    for (int i=0, i<lista.size()-1;i++){
+      if (lista.get(i).getName().equals(nombre) {
+        return lista.get(i);
+      }
     }
-    for (int i=0;i<enlace.size()-1;i++){
-      System.out.println(enlace(i).getName());
-    }
+    return null;
+  }
+
+
+    public boolean esArchivo () {
+	  return false;
+  }
+    public boolean esDirectorio () {
+	  return true;
+  }
+    public boolean esEnlace() {
+	  return false;
   }
 
 }

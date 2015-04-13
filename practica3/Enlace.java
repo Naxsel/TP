@@ -5,11 +5,21 @@
  * Fecha: 25/03/2015
  */
 
-public class Enlace {
-
-  private String nombre;
-  private double size;
-
-  public Enlace(String nombre)
+public class Enlace extends Elemento {
+  
+  private Elemento origen;
+	
+  public Enlace(String nombre) {
     this.nombre=nombre;
+	}
+	
+	  public boolean esArchivo () {
+	  return false;
+  }
+    public boolean esDirectorio () {
+	  return false;
+  }
+    public boolean esEnlace() {
+	  return true;
+  }
 }
