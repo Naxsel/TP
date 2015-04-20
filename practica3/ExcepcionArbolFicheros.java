@@ -5,7 +5,7 @@
  * Fecha: 13/04/2015
  */
 
-public class ExcepcionArbolFicheros extends Exception {
+public class ExcepcionArbolFicheros extends Exception { 
 
 	private static final long serialVersionUID = 1L;
 

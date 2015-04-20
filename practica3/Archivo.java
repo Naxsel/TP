@@ -5,7 +5,7 @@
  * Fecha: 25/03/2015
  */
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 
 public class Archivo extends Elemento {
 
