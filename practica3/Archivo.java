@@ -5,41 +5,48 @@
  * Fecha: 25/03/2015
  */
 
+import java.util.ArrayList;
+
 public class Archivo extends Elemento {
 
-  public Archivo(String nombre, int size) {
-    this.nombre= nombre;
-    this.size=size;
-  }
+	public Archivo(String nombre, int size) {
+		this.nombre = nombre;
+		this.size = size;
+		enl = new ArrayList<Enlace>();
+	}
 
-  public String getNombre() {
-    return nombre;
-  }
+	public String getName() {
+		return nombre;
+	}
 
-  public double getSize() {
-    return size;
-  }
+	public double getSize() {
+		return size;
+	}
 
-  public void setNombre(String nom) {
-    this.nombre = nom;
-  }
+	public void setName(String nom) {
+		this.nombre = nom;
+	}
 
-  public void setSize(double tam) {
-    this.size = tam;
-  }
-  
-  public void link(Enlace enlace){
-  
-  }
-  
-  public boolean esArchivo () {
-	  return true;
-  }
-    public boolean esDirectorio () {
-	  return false;
-  }
-    public boolean esEnlace() {
-	  return false;
-  }
+	public void setSize(double tam) {
+		this.size = tam;
+	}
+
+	public void rm() {
+		while (enl.size() > 0) {
+			enl.get(0).rm();
+		}
+	}
+
+	public boolean esArchivo() {
+		return true;
+	}
+
+	public boolean esDirectorio() {
+		return false;
+	}
+
+	public boolean esEnlace() {
+		return false;
+	}
 
 }

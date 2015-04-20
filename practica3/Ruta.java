@@ -2,22 +2,26 @@
  * Autores: Ana Roig Jimenez, Alejandro Solanas Bonilla
  * NIAs:    686329, 647647
  * Fichero: Ruta.java
- * Fecha: 25/03/2015
+ * Fecha: 13/04/2015
  */
 
-//Metodo list para ls?
-//Hay que devolver en orden alfabetico con ls?
-
+import java.util.ArrayList;
 
 /**
  *
  */
 public class Ruta {
 
-	ArrayList Directorio ruta;
+	ArrayList<Directorio> ruta;
 
-	public Ruta(Directorio raiz){
-		ruta.add(raiz)
+	public Ruta(Directorio raiz) throws ExcepcionArbolFicheros {
+		try {
+			ruta.size();
+			throw new ExcepcionArbolFicheros("Ya existe una ruta");
+		} catch (NullPointerException e) {
+			ruta = new ArrayList<Directorio>();
+			ruta.add(raiz);
+		}
 	}
 
 	/**
@@ -27,13 +31,14 @@ public class Ruta {
 	 */
 	String pwd() {
 		String s = "";
-		for (int n=0; n<ruta.size; n++){
-			if (s.equals("/")){
-				s= s+ruta.get(n).getName();
-			}else{
-				s= s +"/"+ruta.get(n).getName()
+		for (int n = 0; n < ruta.size(); n++) {
+			if (s.equals("/")) {
+				s = s + ruta.get(n).getName();
+			} else {
+				s = s + "/" + ruta.get(n).getName();
 			}
 		}
+		return s;
 	}
 
 	/**
@@ -42,7 +47,7 @@ public class Ruta {
 	 * diferente, sin ningun dato mas.
 	 */
 	void ls() {
-		Directorio actual = ruta.get(ruta.size()-1);
+		Directorio actual = ruta.get(ruta.size() - 1);
 		actual.print();
 	}
 
@@ -54,61 +59,57 @@ public class Ruta {
 	 * directorios. También se le puede pasar como parámetro una ruta completa
 	 * (varios directorios separados por “/”).
 	 */
-
-	 //que pasa al hacer split con solo una barra
-	void cd(String path) {
-		if (!path.equals(".") && !path.equals("") && !path.equals(null)){
-			if (path.equals("..")){
-				ruta.remove(ruta.size()-1);
+	void cd(String path) throws ExcepcionArbolFicheros {
+		if (!path.equals(".") && !path.equals("") && !path.equals(null)) {
+			if (path.equals("..")) {
+				ruta.remove(ruta.size() - 1);
 				pwd();
-			}
-			else {
-				if(path.charAt[0].equals("/") {
-					String [] s = path.split("/");
-					if (s.length == 0){
-						for(int i =0; i<ruta.size()-1;i++){
-							ruta.remove(ruta.size()-1);
+			} else {
+				ArrayList<Directorio> aux = ruta;
+				boolean cond = true;
+				Directorio D;
+				int i = 0;
+				if (path.charAt(0) == '/') {
+					String[] s = path.split("/");
+					if (s.length == 0) {
+						for (int j = 0; i < ruta.size() - 1; i++) {
+							ruta.remove(ruta.size() - 1);
 						}
 						pwd();
-					}else{
-						int i =0; boolean cond;
-						ArrayList Elemento aux = ruta;
-						for(int i =0; i<aux.size()-1;i++){
-							aux.remove(aux.size()-1);
+					} else {
+						for (int j = 0; i < aux.size() - 1; i++) {
+							aux.remove(aux.size() - 1);
 						}
-						Directorio D;
-						while (i<s.length-1 && cond){ // length -1?
-							D=aux.get(i).subD(s[i+1]);
-							if (D.equals(null)){
-								cond=false;
-								System.out.println("No existe la ruta introducida");
-							} else{
+						while (i < s.length - 1 && cond) { // length -1?
+							D = (Directorio) aux.get(i).subD(s[i + 1]);
+							if (D.equals(null)) {
+								cond = false;
+								throw new ExcepcionArbolFicheros(
+										"No existe la ruta introducida");
+							} else {
 								aux.add(D);
 								i++;
 							}
 						}
-						if(cond){
+						if (cond) {
 							ruta = aux;
 							pwd();
 						}
 					}
-				}
-				else{
-					ArrayList Elemento aux = ruta;
-					int i=0; boolean cond;
-					String [] s = path.split("/");
-					Directorio D;
-					while(i<s.length && cond){
-						D=aux.get(aux.size()-1).subD(s[i]));
-						if (D.equals(null)){
-							cond=false;
-							System.out.println("No existe la ruta introducida");
-						} else{
+				} else {
+					String[] s = path.split("/");
+					while (i < s.length && cond) {
+						D = (Directorio) aux.get(aux.size() - 1).subD(s[i]);
+						if (D.equals(null)) {
+							cond = false;
+							throw new ExcepcionArbolFicheros(
+									"No existe la ruta introducida");
+						} else {
 							aux.add(D);
 							i++;
 						}
 					}
-					if(cond){
+					if (cond) {
 						ruta = aux;
 						pwd();
 					}
@@ -118,74 +119,81 @@ public class Ruta {
 	}
 
 	/**
-	 * Muestra por pantalla un numero que es el tamaño del archivo,
-	 * directorio o enlace dentro de la ruta actual identificado por la cadena
-	 * de texto que se le pasa como parametro. Tambien se le puede pasar una
-	 * ruta completa.
+	 * Muestra por pantalla un numero que es el tamaño del archivo, directorio o
+	 * enlace dentro de la ruta actual identificado por la cadena de texto que
+	 * se le pasa como parametro. Tambien se le puede pasar una ruta completa.
+	 * 
+	 * @throws ExcepcionArbolFicheros
 	 */
-	void stat(String element) {
+	void stat(String element) throws ExcepcionArbolFicheros {
 		Elemento e = localizar(element);
 		e.getSize();
 	}
 
 	/**
-	 * Devuelve el elemento dentro de la ruta actual, o raiz identificado
-	 * con la cadena de texto que se pasa como parametro.
-	 * Devuelve el elemento si existe, sino un null
+	 * Devuelve el elemento dentro de la ruta actual, o raiz identificado con la
+	 * cadena de texto que se pasa como parametro. Devuelve el elemento si
+	 * existe, sino un null
 	 */
-	private Elemento localizar(String element){
-		if (!path.equals(null) && !path.equals("..") && !path.equals("")){
-			if (path.equals(".")){
-				return ruta.get(ruta.size()-1);
-			}
-			else {
-				ArrayList Directorio aux = ruta;
-				int i=0; boolean cond;
+	private Elemento localizar(String path) throws ExcepcionArbolFicheros {
+		if (!path.equals(null) && !path.equals("..") && !path.equals("")) {
+			if (path.equals(".")) {
+				return ruta.get(ruta.size() - 1);
+			} else {
+				ArrayList<Directorio> aux = ruta;
+				boolean cond = true;
 				Directorio D;
-				if(path.charAt[0].equals("/") {
-					String [] s = path.split("/");
-					if (s.length == 0){
-						for(int i =0; i<aux.size()-1;i++){
-							ruta.remove(aux.size()-1);
+				int i = 0;
+				if (path.charAt(0) == '/') {
+					String[] s = path.split("/");
+					if (s.length == 0) {
+						for (int j = 0; i < aux.size() - 1; i++) {
+							ruta.remove(aux.size() - 1);
 						}
-						return aux.get(aux.size()-1);
-					}else{
-						for(int i =0; i<aux.size()-1;i++){
-							aux.remove(aux.size()-1);
+						return aux.get(aux.size() - 1);
+					} else {
+						for (int j = 0; i < aux.size() - 1; i++) {
+							aux.remove(aux.size() - 1);
 						}
-						while (i<s.length-1 && cond){ // length -1?
-							D=aux.get(i).subE(s[i+1]);
-							if (D.equals(null)){
-								cond=false;
-								System.out.println("No existe la ruta introducida");
-							} else{
+						while (i < s.length - 1 && cond) {
+							D = (Directorio) aux.get(i).subE(s[i + 1]);
+							if (aux.get(i).subE(s[i + 1]).equals(null)) {
+								cond = false;
+								throw new ExcepcionArbolFicheros(
+										"No existe la ruta introducida");
+							} else {
 								aux.add(D);
 								i++;
 							}
 						}
-						if(cond){
-							return aux.get(aux.size()-1);
-						} else{ return null;}
+						if (cond) {
+							return aux.get(aux.size() - 1);
+						} else {
+							return null;
+						}
 					}
-				}
-				else{
-					String [] s = path.split("/");
-					while(i<s.length && cond){
-						D=aux.get(aux.size()-1).subE(s[i]));
-						if (D.equals(null)){
-							cond=false;
-							System.out.println("No existe la ruta introducida");
-						} else{
+				} else {
+					String[] s = path.split("/");
+					while (i < s.length && cond) {
+						D = (Directorio) aux.get(aux.size() - 1).subE(s[i]);
+						if (D.equals(null)) {
+							cond = false;
+							throw new ExcepcionArbolFicheros(
+									"No existe la ruta introducida");
+						} else {
 							aux.add(D);
 							i++;
 						}
 					}
-					if(cond){
-						return aux.get(aux.size()-1);
-					} else{ return null;}
+					if (cond) {
+						return aux.get(aux.size() - 1);
+					} else {
+						return null;
+					}
 				}
 			}
 		}
+		return null;
 	}
 
 	/**
@@ -195,15 +203,26 @@ public class Ruta {
 	 * espeficados. Si el archivo referenciado por “file” es en realidad un
 	 * enlace a un archivo, también cambia su tamaño.
 	 */
-	void vim(String file, int size) {
-		Elemento e = localizar(file);
-		if (!e.esArchivo()){
-			System.out.println("No se es un archivo")
-		}
-		else{
-				Archivo a = e;
-				a.setSize(size);
+	void vim(String file, int size) throws ExcepcionArbolFicheros {
+		if (!(file.charAt(0) == ('/'))) {
+			String s[] = file.split("/");
+			String rut = "";
+			for (int i = 0; i < file.length() - 1; i++) {
+				rut += s[i] + "/";
 			}
+			rut = rut.substring(0, rut.length() - 1);
+			cd(rut);
+			Elemento e = localizar(pwd() + s[s.length - 1]);
+			if (e.esArchivo()) {
+				Archivo a = (Archivo) e;
+				a.setSize(size);
+			} else {
+				Archivo a = new Archivo(s[s.length - 1], size);
+				Directorio actual = ruta.get(ruta.size() - 1);
+				actual.Add(a);
+			}
+		} else {
+			throw new ExcepcionArbolFicheros("No se permiten rutas completas");
 		}
 	}
 
@@ -212,8 +231,9 @@ public class Ruta {
 	 * parámetro una ruta completa.
 	 */
 	void mkdir(String dir) {
-		Directorio actual = ruta.get(ruta.size()-1);
+		Directorio actual = ruta.get(ruta.size() - 1);
 		Directorio D = new Directorio(dir);
+		actual.Add(D);
 	}
 
 	/**
@@ -223,8 +243,15 @@ public class Ruta {
 	 * simbólicos entre elementos dentro de diferentes posiciones del árbol de
 	 * directorios.
 	 */
-	void ln(String orig, String dest) {
-
+	void ln(String orig, String dest) throws ExcepcionArbolFicheros {
+		Elemento e = localizar(orig);
+		if (e != null) {
+			Enlace en = new Enlace(dest, orig);
+			e.link(en);
+		} else {
+			throw new ExcepcionArbolFicheros(
+					"No existe el elemento referenciado");
+		}
 	}
 
 	/**
@@ -236,10 +263,23 @@ public class Ruta {
 	 * Así pues, para eliminar completamente un elemento hay que borrar el
 	 * elemento y todos los enlaces que apuntan a dicho elemento de forma
 	 * manual.
+	 * 
+	 * @throws ExcepcionArbolFicheros
 	 */
-	void rm(String e) {
-
+	void rm(String e) throws ExcepcionArbolFicheros {
+		String s[] = e.split("/");
+		String rut = "";
+		Directorio D;
+		for (int i = 0; i < e.length() - 1; i++) {
+			rut += s[i] + "/";
+		}
+		if (rut.length() != 0) {
+			rut = rut.substring(0, rut.length() - 1);
+			D = (Directorio) localizar(rut);
+		} else {
+			D = ruta.get(ruta.size() - 1);
+		}
+		D.borrar(s[s.length - 1]);
 	}
-
 
 }
