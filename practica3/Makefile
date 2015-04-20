@@ -1,5 +1,5 @@
 PROG=Main.class
-SRCS=Main.java 
+SRCS=Main.java Partida.java
 OBJS=$(SRCS:.java=.class)
 
 all: $(PROG)
