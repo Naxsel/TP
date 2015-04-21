@@ -52,12 +52,11 @@ public class Ruta {
 	}
 
 	/**
-	 * cambia la ruta a otro directorio (path), pasÃ¡ndole el nombre del
-	 * directorio al que quiere cambiar. Hay tres casos especiales: â€œ.â€� se
-	 * refiere al directorio actual, â€œ..â€� se refiere al directorio anterior
-	 * en el Ã¡rbol de directorios y â€œ/â€� se refiere a la raÃ­z del Ã¡rbol de
-	 * directorios. TambiÃ©n se le puede pasar como parÃ¡metro una ruta completa
-	 * (varios directorios separados por â€œ/â€�).
+	 * Cambia la ruta a otro directorio (path), pasándole el nombre
+	 * del directorio al que quiere cambiar. Hay tres casos especiales: “.” se refiere al
+	 * directorio actual, “..” se refiere al directorio anterior en el árbol de directorios y “/” se
+	 * refiere a la raíz del árbol de directorios. También se le puede pasar como parámetro
+	 * una ruta completa (varios directorios separados por “/”).
 	 */
 	void cd(String path) throws ExcepcionArbolFicheros {
 		if (!path.equals(".") && !path.equals("") && !path.equals(null)) {
@@ -72,8 +71,8 @@ public class Ruta {
 				boolean cond = true;
 				Directorio D;
 				int i = 0;
+				String[] s = path.split("/");
 				if (path.charAt(0) == '/') {
-					String[] s = path.split("/");
 					if (s.length == 1 && s[0].equals("/")) {
 						while (ruta.size() > 1) {
 							ruta.remove(ruta.size() - 1);
@@ -102,7 +101,6 @@ public class Ruta {
 						}
 					}
 				} else {
-					String[] s = path.split("/");
 					while (i < s.length && cond) {
 						D = (Directorio) aux.get(aux.size() - 1).subD(s[i]);
 						try {
@@ -129,15 +127,24 @@ public class Ruta {
 	}
 
 	/**
-	 * Muestra por pantalla un numero que es el tamaÃ±o del archivo, directorio
-	 * o enlace dentro de la ruta actual identificado por la cadena de texto que
-	 * se le pasa como parametro. Tambien se le puede pasar una ruta completa.
-	 *
-	 * @throws ExcepcionArbolFicheros
+   * Muestra por pantalla un número que es el tamaño del archivo,
+	 * directorio o enlace dentro de la ruta actual identificado por la cadena de
+	 * texto que se le pasa como parámetro.
+	 * También se le puede pasar una ruta completa.
 	 */
 	void stat(String element) throws ExcepcionArbolFicheros {
-		Elemento e = localizar(element);
-		System.out.println(e.getSize() + " bytes"); 
+		Elemento e;
+		if (element.equals("/")) {
+			e = ruta.get(0);
+		} else {
+			e = localizar(element);
+		}
+		try {
+			System.out.println(e.getSize() + " bytes");
+		} catch (NullPointerException e2) {
+			throw new ExcepcionArbolFicheros(
+					"No existe el elemento introducido");
+		}
 	}
 
 	/**
@@ -150,22 +157,26 @@ public class Ruta {
 			if (path.equals(".")) {
 				return ruta.get(ruta.size() - 1);
 			} else {
-				ArrayList<Directorio> aux = ruta;
+				ArrayList<Directorio> aux = new ArrayList<Directorio>();
+				for (int j = 0; j < ruta.size(); j++) {
+					aux.add(ruta.get(j));
+				}
 				boolean cond = true;
-				Directorio D;
+				Directorio D = aux.get(aux.size() - 1);
 				int i = 0;
+				String[] s = path.split("/");
 				if (path.charAt(0) == '/') {
-					String[] s = path.split("/");
 					if (s.length == 1 && s[0].equals("/")) {
 						while (aux.size() > 1) {
-							aux.remove(ruta.size() - 1);
+							aux.remove(aux.size() - 1);
 						}
+						System.out.println(pwd());
 						return aux.get(aux.size() - 1);
 					} else {
 						while (aux.size() > 1) {
 							aux.remove(aux.size() - 1);
 						}
-						while (i < s.length - 1 && cond) {
+						while (i < s.length - 2 && cond) {
 							D = (Directorio) aux.get(i).subE(s[i + 1]);
 							try {
 								if (D.equals(null)) {
@@ -179,14 +190,14 @@ public class Ruta {
 							}
 						}
 						if (cond) {
-							return aux.get(aux.size() - 1);
+							return D.subE(s[s.length - 1]);
 						} else {
-							return null;
+							throw new ExcepcionArbolFicheros(
+									"no existe la ruta introducida");
 						}
 					}
 				} else {
-					String[] s = path.split("/");
-					while (i < s.length && cond) {
+					while (i < s.length - 1 && cond) {
 						D = (Directorio) aux.get(aux.size() - 1).subE(s[i]);
 						try {
 							if (D.equals(null)) {
@@ -200,9 +211,10 @@ public class Ruta {
 						}
 					}
 					if (cond) {
-						return aux.get(aux.size() - 1);
+						return D.subE(s[s.length - 1]);
 					} else {
-						return null;
+						throw new ExcepcionArbolFicheros(
+								"no existe la ruta introducida");
 					}
 				}
 			}
@@ -211,29 +223,39 @@ public class Ruta {
 	}
 
 	/**
-	 * Cambia el tamaÃ±o de un archivo dentro de la ruta actual (no se le puede
-	 * pasar como parÃ¡metro una ruta completa). Si el archivo no existe dentro
-	 * de la ruta actual, se crea automÃ¡ticamente con el nombre y tamaÃ±o
-	 * espeficados. Si el archivo referenciado por â€œfileâ€� es en realidad un
-	 * enlace a un archivo, tambiÃ©n cambia su tamaÃ±o.
+	 * Cambia el tamaño de un archivo dentro de
+	 * la ruta actual (no se le puede pasar como parámetro una ruta completa). Si el archivo
+	 * no existe dentro de la ruta actual, se crea automáticamente con el nombre y tamaño
+	 * espeficados. Si el archivo referenciado por “file” es en realidad un enlace a un archivo,
+	 * también cambia su tamaño.
 	 */
 	void vim(String file, int size) throws ExcepcionArbolFicheros {
 		if (!(file.charAt(0) == ('/'))) {
 			String s[] = file.split("/");
 			String rut = "";
-			for (int i = 0; i < file.length() - 1; i++) {
-				rut += s[i] + "/";
-			}
-			rut = rut.substring(0, rut.length() - 1);
-			cd(rut);
-			Elemento e = localizar(pwd() + s[s.length - 1]);
-			if (e.esArchivo()) {
-				Archivo a = (Archivo) e;
-				a.setSize(size);
+			Directorio padre;
+			if (s.length != 1) {
+				for (int i = 0; i < s.length - 1; i++) {
+					rut += s[i] + "/";
+				}
+				rut = rut.substring(0, rut.length() - 1);
+				padre = (Directorio) localizar(rut);
 			} else {
+				padre = ruta.get(ruta.size() - 1);
+			}
+			Elemento e = padre.subE(s[s.length - 1]);
+			try {
+				if (e.esArchivo()) {
+					Archivo a = (Archivo) e;
+					a.setSize(size);
+				}
+				if (e.esEnlace()) {
+					Enlace en = (Enlace) e;
+					en.setSize(size);
+				}
+			} catch (NullPointerException e1) {
 				Archivo a = new Archivo(s[s.length - 1], size);
-				Directorio actual = ruta.get(ruta.size() - 1);
-				actual.Add(a);
+				padre.Add(a);
 			}
 		} else {
 			throw new ExcepcionArbolFicheros("No se permiten rutas completas");
@@ -241,8 +263,8 @@ public class Ruta {
 	}
 
 	/**
-	 * Crea un directorio dentro de la ruta actual. No se le puede pasar como
-	 * parÃ¡metro una ruta completa.
+   * Crea un directorio dentro de la ruta actual. No se le
+	 * puede pasar como parámetro una ruta completa.
 	 */
 	void mkdir(String dir) {
 		Directorio actual = ruta.get(ruta.size() - 1);
@@ -251,34 +273,33 @@ public class Ruta {
 	}
 
 	/**
-	 * Crea un enlace simbÃ³lico de nombre â€œdestâ€� al que enlaza el elemento
-	 * identificado mediante el nombre â€œorigâ€�. â€œdestâ€� no puede contener
-	 * una ruta completa, pero â€œorigâ€� sÃ­, de tal modo que pueden crearse
-	 * enlaces simbÃ³licos entre elementos dentro de diferentes posiciones del
-	 * Ã¡rbol de directorios.
+	 * Crea un enlace simbólico de nombre
+	 * “dest” a que enlaza el elemento identificado mediante el nombre “orig”. “dest” no puede
+	 * contener una ruta completa, pero “orig” sí, de tal modo que pueden crearse enlaces
+	 * simbólicos entre elementos dentro de diferentes posiciones del árbol de directorios.
 	 */
 	void ln(String orig, String dest) throws ExcepcionArbolFicheros {
 		Elemento e = localizar(orig);
-		if (e != null) {
+		try {
+			if (e != null) {}
 			Enlace en = new Enlace(dest, orig);
 			e.link(en);
-		} else {
+			Directorio actual = ruta.get(ruta.size() - 1);
+			actual.Add(en);
+		} catch (NullPointerException e2) {
 			throw new ExcepcionArbolFicheros(
 					"No existe el elemento referenciado");
 		}
 	}
 
 	/**
-	 * Elimina un elemento dentro de la ruta actual (puede pasÃ¡rsele como
-	 * parÃ¡metro una ruta completa). Si es un archivo es simplemente eliminado.
-	 * Si es un enlace elimina el enlace pero no lo enlazado. Si es un
-	 * directorio, elimina el directorio y todo su contenido. Los enlaces a
-	 * elementos borrados, sin embargo, siguen enlazando al elemento borrado.
-	 * AsÃ­ pues, para eliminar completamente un elemento hay que borrar el
-	 * elemento y todos los enlaces que apuntan a dicho elemento de forma
+	 * Elimina un elemento dentro de la ruta actual (puede pasársele
+	 * como parámetro una ruta completa). Si es un archivo es simplemente eliminado. Si es
+	 * un enlace elimina el enlace pero no lo enlazado. Si es un directorio, elimina el directorio
+	 * y todo su contenido. Los enlaces a elementos borrados, sin embargo, siguen
+	 * enlazando al elemento borrado. Así pues, para eliminar completamente un elemento
+	 * hay que borrar el elemento y todos los enlaces que apuntan a dicho elemento de forma
 	 * manual.
-	 *
-	 * @throws ExcepcionArbolFicheros
 	 */
 	void rm(String e) throws ExcepcionArbolFicheros {
 		String s[] = e.split("/");

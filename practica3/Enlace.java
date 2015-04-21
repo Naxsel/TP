@@ -5,7 +5,7 @@
  * Fecha: 13/04/2015
  */
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
 public class Enlace extends Elemento {
 
@@ -14,6 +14,7 @@ public class Enlace extends Elemento {
 	public Enlace(String nombre, String origen) {
 		this.nombre = nombre;
 		this.origen = origen;
+		size=0;
 		enl = new ArrayList<Enlace>();
 	}
 
@@ -34,12 +35,14 @@ public class Enlace extends Elemento {
 	}
 
 	String getName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	double getSize() {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public void setSize(int size) {
+		this.size=size;
 	}
 }
