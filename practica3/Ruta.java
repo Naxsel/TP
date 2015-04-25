@@ -60,6 +60,8 @@ public class Ruta {
 	 * (varios directorios separados por “/”).
 	 */
 	void cd(String path) throws ExcepcionArbolFicheros {
+		@SuppressWarnings("unchecked")
+		ArrayList<Directorio> aux = (ArrayList<Directorio>) ruta.clone();
 		if (!path.equals(".") && !path.equals("") && !path.equals(null)) {
 			if (path.equals("..")
 					&& !(ruta.get(0).equals(ruta.get(ruta.size() - 1)))) {
@@ -68,7 +70,6 @@ public class Ruta {
 				}
 				pwd();
 			} else {
-				ArrayList<Directorio> aux = ruta;
 				boolean cond = true;
 				Directorio D;
 				int i = 0;
@@ -289,34 +290,38 @@ public class Ruta {
 	 * directorios.
 	 */
 	void ln(String orig, String dest) throws ExcepcionArbolFicheros {
-		if (dest.charAt(0) != '/') {
+		String s[] = dest.split("/");
+		if (dest.charAt(0) != '/' && s.length == 1) {
 			Elemento e = localizar(orig);
 			Directorio actual = ruta.get(ruta.size() - 1);
 			Enlace en;
 			try {
 				en = (Enlace) actual.subE(dest);
 				en.getName();
-				throw new ExcepcionArbolFicheros("Ya existe un elemento con ese nombre");
+				throw new ExcepcionArbolFicheros(
+						"Ya existe un elemento con ese nombre");
 			} catch (java.lang.ClassCastException c) {
 				throw new ExcepcionArbolFicheros(
 						"Ya existe un elemento con ese nombre");
-			} catch (NullPointerException e2){
-				try{
+			} catch (NullPointerException e2) {
+				try {
 					e.getName();
 					en = new Enlace(dest, orig);
 					actual.Add(en);
-					String s = pwd();
-					if (s.charAt(s.length() - 1) == '/') {
-						dest = s + dest;
+					String s1 = pwd();
+					if (s1.charAt(s1.length() - 1) == '/') {
+						dest = s1 + dest;
 					} else {
-						dest = s + "/" + dest;
+						dest = s1 + "/" + dest;
 					}
 					e.link(dest);
-				} catch (NullPointerException e3){
+				} catch (NullPointerException e3) {
 					throw new ExcepcionArbolFicheros(
 							"No existe el elemento referenciado");
 				}
 			}
+		} else {
+			throw new ExcepcionArbolFicheros("Parametros mal introducidos");
 		}
 	}
 
@@ -334,6 +339,7 @@ public class Ruta {
 		String s[] = e.split("/");
 		String rut = "";
 		Directorio D;
+		boolean b = true;
 		for (int i = 0; i < s.length - 1; i++) {
 			rut += s[i] + "/";
 		}
@@ -343,51 +349,58 @@ public class Ruta {
 		} else {
 			D = ruta.get(ruta.size() - 1);
 		}
-		for (int i = 0; i < D.lista.size(); i++) {
-			if (D.lista.get(i).getName().equals(s[s.length - 1])) {
-				Elemento e1 = D.lista.get(i);
-				D.lista.remove(i);
-				if (e1.esDirectorio()) {
-					rmenl((Directorio) e1);
-					Directorio D1 = (Directorio) e1;
-					rmenl(D1);
-					while (D1.lista.size() > 0) {
-						rmaux(pwd() + "/" + D1.lista.get(0).getName());
-						D1.lista.remove(0);
+		try {
+			for (int i = 0; i < D.lista.size(); i++) {
+				if (D.lista.get(i).getName().equals(s[s.length - 1])) {
+					Elemento e1 = D.lista.get(i);
+					D.lista.remove(i);
+					if (e1.esDirectorio()) {
+						rmenl((Directorio) e1);
+						Directorio D1 = (Directorio) e1;
+						rmenl(D1);
+						while (D1.lista.size() > 0) {
+							rmaux(pwd() + "/" + D1.lista.get(0).getName());
+							D1.lista.remove(0);
+						}
 					}
-				}
-				while (e1.enl.size() > 0) {
-					rmaux(e1.enl.get(0));
-					e1.enl.remove(0);
+					while (e1.enl.size() > 0) {
+						rmaux(e1.enl.get(0));
+						e1.enl.remove(0);
+					}
+					b = false;
 				}
 			}
+			if (b){
+				throw new ExcepcionArbolFicheros("No existe la ruta introducida");
+			}
+		} catch (NullPointerException e5) {
+			throw new ExcepcionArbolFicheros("No existe la ruta introducida");
 		}
 	}
-	
-	
-	void rmenl(Directorio D) throws ExcepcionArbolFicheros{
-		while (D.lista.size()>0){
-			while(D.lista.get(0).enl.size()>0){
+
+	void rmenl(Directorio D) throws ExcepcionArbolFicheros {
+		while (D.lista.size() > 0) {
+			while (D.lista.get(0).enl.size() > 0) {
 				rmaux(D.lista.get(0).enl.get(0));
 				D.lista.get(0).enl.remove(0);
 			}
-			if(D.lista.get(0).esDirectorio()){
+			if (D.lista.get(0).esDirectorio()) {
 				rmenl((Directorio) D.lista.get(0));
 			}
 			D.lista.remove(0);
-			
+
 		}
 	}
-	
+
 	/**
 	 * Identico a rm pero trabaja con rutas completas
 	 */
 	void rmaux(String e) throws ExcepcionArbolFicheros {
 		String s[] = e.split("/");
-		String rut = "";
+		String rut = "/";
 		Directorio D;
 		for (int i = 0; i < s.length - 2; i++) {
-			rut += s[i] + "/";
+			rut += s[i + 1] + "/";
 		}
 		if (rut.length() != 0) {
 			rut = rut.substring(0, rut.length() - 1);
