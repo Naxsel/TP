@@ -5,23 +5,23 @@
  * Fecha: 13/04/2015
  */
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
 abstract class Elemento {
 
 	protected String nombre;
 	protected double size;
-	protected ArrayList<Enlace> enl;
+	protected ArrayList<String> enl;
 
 	abstract String getName();
 
 	abstract double getSize();
 
-	public void link(Enlace enlace) {
+	public void link(String enlace) {
 		enl.add(enlace);
 	}
 
-	abstract void rm();
+	abstract void rm() throws ExcepcionArbolFicheros;
 
 	abstract boolean esDirectorio();
 

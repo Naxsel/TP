@@ -14,11 +14,11 @@ public class Enlace extends Elemento {
 	public Enlace(String nombre, String origen) {
 		this.nombre = nombre;
 		this.origen = origen;
-		size=0;
-		enl = new ArrayList<Enlace>();
+		size = 0;
+		enl = new ArrayList<String>();
 	}
 
-	public void rm() {
+	public void rm() throws ExcepcionArbolFicheros {
 
 	}
 
@@ -35,7 +35,7 @@ public class Enlace extends Elemento {
 	}
 
 	String getName() {
-		return null;
+		return nombre;
 	}
 
 	double getSize() {
@@ -43,6 +43,6 @@ public class Enlace extends Elemento {
 	}
 
 	public void setSize(int size) {
-		this.size=size;
+		this.size = size;
 	}
 }

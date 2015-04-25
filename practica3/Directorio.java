@@ -5,7 +5,7 @@
  * Fecha: 13/04/2015
  */
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
 public class Directorio extends Elemento {
 
@@ -14,7 +14,7 @@ public class Directorio extends Elemento {
 	public Directorio(String nombre) {
 		this.nombre = nombre;
 		lista = new ArrayList<Elemento>();
-		enl = new ArrayList<Enlace>();
+		enl = new ArrayList<String>();
 	}
 
 	public String getName() {
@@ -35,21 +35,22 @@ public class Directorio extends Elemento {
 
 	public void Add(Elemento elmt) {
 		lista.add(elmt);
-		// lista.sort();
 	}
 
-	public void borrar(String nombre) {
-
+	public void borrar(String nombre) throws ExcepcionArbolFicheros {
 		for (int i = 0; i < lista.size(); i++) {
 			if (lista.get(i).getName().equals(nombre)) {
 				lista.get(i).rm();
+				lista.remove(i);
+				i = lista.size();
 			}
 		}
 	}
 
-	public void rm() {
+	public void rm() throws ExcepcionArbolFicheros {
 		while (lista.size() > 0) {
-			lista.get(0).rm();
+			Elemento e = lista.get(0);
+			e.rm();
 			lista.remove(0);
 		}
 	}

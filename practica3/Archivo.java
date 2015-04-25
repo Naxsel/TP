@@ -5,14 +5,14 @@
  * Fecha: 25/03/2015
  */
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
 public class Archivo extends Elemento {
 
 	public Archivo(String nombre, int size) {
 		this.nombre = nombre;
 		this.size = size;
-		enl = new ArrayList<Enlace>();
+		enl = new ArrayList<String>();
 	}
 
 	public String getName() {
@@ -31,10 +31,8 @@ public class Archivo extends Elemento {
 		this.size = tam;
 	}
 
-	public void rm() {
-		while (enl.size() > 0) {
-			enl.get(0).rm();
-		}
+	public void rm() throws ExcepcionArbolFicheros {
+
 	}
 
 	public boolean esArchivo() {
