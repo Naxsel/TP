@@ -2,11 +2,15 @@
  * Autores: Ana Roig Jimenez, Alejandro Solanas Bonilla
  * NIAs:    686329, 647647
  * Fichero: Archivo.java
- * Fecha: 13/04/2015
+ * Fecha: 20/04/2015
  */
 
 import java.util.ArrayList;
 
+/**
+ * Clase generica Elemento, que asemeja uno de los tipos de archivos que
+ * podemos encontrar en un arbol de Ficheros
+ */
 abstract class Elemento {
 
 	protected String nombre;

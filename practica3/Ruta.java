@@ -2,13 +2,13 @@
  * Autores: Ana Roig Jimenez, Alejandro Solanas Bonilla
  * NIAs:    686329, 647647
  * Fichero: Ruta.java
- * Fecha: 13/04/2015
+ * Fecha: 20/04/2015
  */
 
 import java.util.ArrayList;
 
 /**
- *
+ * Clase Ruta
  */
 public class Ruta {
 
@@ -174,6 +174,7 @@ public class Ruta {
 						while (aux.size() > 1) {
 							aux.remove(aux.size() - 1);
 						}
+						D = aux.get(aux.size() - 1);
 						while (i < s.length - 2 && cond) {
 							D = (Directorio) aux.get(i).subE(s[i + 1]);
 							try {
@@ -378,7 +379,11 @@ public class Ruta {
 		}
 	}
 
-	void rmenl(Directorio D) throws ExcepcionArbolFicheros {
+	/**
+	 * Metodo auxiliar complementario a rm para encargarse de eliminar los
+	 * enlaces a los archivos borrados
+	 */
+	private void rmenl(Directorio D) throws ExcepcionArbolFicheros {
 		while (D.lista.size() > 0) {
 			while (D.lista.get(0).enl.size() > 0) {
 				rmaux(D.lista.get(0).enl.get(0));
@@ -395,14 +400,14 @@ public class Ruta {
 	/**
 	 * Identico a rm pero trabaja con rutas completas
 	 */
-	void rmaux(String e) throws ExcepcionArbolFicheros {
+	private void rmaux(String e) throws ExcepcionArbolFicheros {
 		String s[] = e.split("/");
 		String rut = "/";
 		Directorio D;
 		for (int i = 0; i < s.length - 2; i++) {
 			rut += s[i + 1] + "/";
 		}
-		if (rut.length() != 0) {
+		if (rut.length() > 1) {
 			rut = rut.substring(0, rut.length() - 1);
 			D = (Directorio) localizar(rut);
 		} else {

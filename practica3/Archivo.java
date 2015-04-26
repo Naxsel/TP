@@ -2,11 +2,14 @@
  * Autores: Ana Roig Jimenez, Alejandro Solanas Bonilla
  * NIAs:    686329, 647647
  * Fichero: Archivo.java
- * Fecha: 25/03/2015
+ * Fecha: 20/04/2015
  */
 
 import java.util.ArrayList;
 
+/**
+ * Clase hija de Elemento, que simula un archivo
+ */
 public class Archivo extends Elemento {
 
 	public Archivo(String nombre, int size) {

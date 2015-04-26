@@ -2,11 +2,14 @@
  * Autores: Ana Roig Jimenez, Alejandro Solanas Bonilla
  * NIAs:    686329, 647647
  * Fichero: Directorio.java
- * Fecha: 13/04/2015
+ * Fecha: 20/04/2015
  */
 
 import java.util.ArrayList;
 
+/**
+ * Clase hija de Elemento, que simula un Directorio
+ */
 public class Directorio extends Elemento {
 
 	ArrayList<Elemento> lista;

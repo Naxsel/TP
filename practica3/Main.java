@@ -1,3 +1,10 @@
+/*
+ * Autores (Práctica): Ana Roig Jimenez, Alejandro Solanas Bonilla
+ * NIAs:    686329, 647647
+ * Fichero: Ruta.java (Otorgado como base)
+ * Fecha: 20/04/2015
+ */
+
 /* Fichero de pruebas */
 
 import java.io.BufferedReader;
