@@ -1,9 +1,14 @@
-package practica4;
+/*
+ * Autores: Ana Roig Jimenez, Alejandro Solanas Bonilla
+ * NIAs:    686329, 647647
+ * Fichero: Main.java
+ * Fecha: 05/05/2015
+ */
 
 public class Main {
 	public static void main(String[] args) {
 		Camion camion = new Camion(10);
-		
+
 		Contenedor<Generico> contenedor_generico = new Contenedor<Generico>(4);
 		//Contenedor<Camion> contenedor_camion = new Contenedor<Camion>(4);
 		Contenedor<Toxico>   contenedor_toxico   = new Contenedor<Toxico>(3);
