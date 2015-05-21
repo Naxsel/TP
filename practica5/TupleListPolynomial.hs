@@ -27,21 +27,20 @@ padd3 p t = if (snd t) > (snd (head p)) then [t] ++ p
        else if (snd (head p)) == (snd t) then [(fst (head p) + fst t , snd t)] ++ tail p
        else [(head p)] ++ (padd3(tail p) t)
 
+multTupla :: P -> T -> P
+multTupla p (0,_) = []
+multTupla [] t = []
+multTupla p t = [(fst (head p) * fst t, snd (head p) + snd t)] ++ multTupla (tail p) t
+
+
+multPol :: P -> P -> P
+multPol [] p = []
+multPol p [] = p
+multPol p q = padd ([multTupla q (head p)] ++ [multPol (tail p) q])
+
 pmul :: LP -> P
 pmul [] = []
-pmul l = pmul1 (head l) (tail l)
-
-pmul1 :: P -> LP -> P
-pmul1 p [] = p
-pmul1 p (x:xs) = pmul1 (pmul2 p x ) xs
-
-pmul2 :: P -> P -> P
-pmul2 p [] = p
-pmul2 p (x:xs) = pmul2 (padd (pmul3 p x)) xs
-
-pmul3 :: P -> T -> LP
-pmul3 [] _ = []
-pmul3 (p:ps) t = [[(fst p * fst t , snd p + snd t )]] ++ pmul3 ps t
+pmul l = multPol (head l) (pmul (tail l))
 
 peval :: P -> Double -> Double
 peval [] _ = 0
