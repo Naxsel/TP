@@ -61,7 +61,7 @@ peval :: P -> C -> C
 peval [] _ = 0
 peval a 0 = last a
 peval [x] b = x
-peval (a:as) b = (a * (b ^ length as)) + peval as b
+peval a b = last a + (b * peval (init a) b)
 
 pderv :: [Int] -> [Int]
 pderv [] = []
