@@ -1,11 +1,19 @@
+-- Autor: Ana Roig y Alejandro Solanas
+-- Nips: 686329 / 647647
+-- Fecha: 20/5/2015
+-- Fichero: TupleListPolynomial.hs
+
 module TupleListPolynomial where
 
 type T = (Double,Integer)
 type P = ([T])
 type LP = ([P])
 
-coef :: Double  -> T
-coef x = (x,0)
+x :: P
+x = [(1.0,1),(0.0,0)]
+
+coef :: Double  -> P
+coef x = [(x,0)]
 
 padd :: LP -> P
 padd [] = []
@@ -27,21 +35,20 @@ padd3 p t = if (snd t) > (snd (head p)) then [t] ++ p
        else if (snd (head p)) == (snd t) then [(fst (head p) + fst t , snd t)] ++ tail p
        else [(head p)] ++ (padd3(tail p) t)
 
+multTupla :: P -> T -> P
+multTupla p (0,_) = []
+multTupla [] t = []
+multTupla p t = [(fst (head p) * fst t, snd (head p) + snd t)] ++ multTupla (tail p) t
+
+
+multPol :: P -> P -> P
+multPol [] p = []
+multPol p [] = p
+multPol p q = padd ([multTupla q (head p)] ++ [multPol (tail p) q])
+
 pmul :: LP -> P
 pmul [] = []
-pmul l = pmul1 (head l) (tail l)
-
-pmul1 :: P -> LP -> P
-pmul1 p [] = p
-pmul1 p (x:xs) = pmul1 (pmul2 p x ) xs
-
-pmul2 :: P -> P -> P
-pmul2 p [] = p
-pmul2 p (x:xs) = pmul2 (padd (pmul3 p x)) xs
-
-pmul3 :: P -> T -> LP
-pmul3 [] _ = []
-pmul3 (p:ps) t = [[(fst p * fst t , snd p + snd t )]] ++ pmul3 ps t
+pmul l = multPol (head l) (pmul (tail l))
 
 peval :: P -> Double -> Double
 peval [] _ = 0

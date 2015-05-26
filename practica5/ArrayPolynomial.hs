@@ -1,11 +1,16 @@
+-- Autor: Ana Roig y Alejandro Solanas
+-- Nips: 686329 / 647647
+-- Fecha: 20/5/2015
+-- Fichero: ArrayPolynomial.hs
+
 module ArrayPolynomial where
 
-type C = (Int)
-type P = ([Int])
+type C = (Double)
+type P = ([Double])
 type LP = ([P])
 
 x :: P
-x = [1,0]
+x = [1.0,0.0]
 
 coef :: C  -> P
 coef a = [a]
@@ -63,7 +68,7 @@ peval a 0 = last a
 peval [x] b = x
 peval a b = last a + (b * peval (init a) b)
 
-pderv :: [Int] -> [Int]
+pderv :: P -> P
 pderv [] = []
 pderv [a] = []
-pderv (x:xs) = [x * length xs] ++ pderv xs
+pderv (x:xs) = [x * fromIntegral (length xs)] ++ pderv xs
